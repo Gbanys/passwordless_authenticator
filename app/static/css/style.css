@@ -1,0 +1,11 @@
+body{
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+@keyframes bg {
+  0% { background: #000000; }
+  25% { background: #000099; }
+  50% { background: #009999; }
+  75% { background: #999999; }
+  100% { background: #000000; }
+}

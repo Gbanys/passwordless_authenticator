@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Live Streaming</title>
+        <link rel="stylesheet" href="static/css/style.css">
+    </head>
+    <style>
+        @keyframes bg {
+          0% { background: cyan; }
+          20% { background: blue; }
+          40% { background: blueviolet; }
+          60% { background: green; }
+          80% { background: yellow; }
+          100% { background: red; }
+        }
+    </style>
+    <body>
+        <h3>Live Streaming</h3>
+        <br>
+        <h3 id="abc"></h3>
+        <br>
+        <img id="frame" src="">
+        <script>
+            let ws = new WebSocket("ws://localhost:8000/ws");
+            let image = document.getElementById("frame");
+            image.onload = function(){
+                URL.revokeObjectURL(this.src); // release the blob URL once the image is loaded
+            }
+            ws.onmessage = function(event) {
+                if(event.data === "redirect_page") {
+                    window.location.href = "http://127.0.0.1:8000/home";
+                }
+                else if(event.data === "TWO_FINGERS"){
+                    document.body.style.backgroundColor = "pink";
+                    document.getElementById("abc").innerText = "OBJECT DETECTED"
+                }
+                else if(event.data === "GIEDRIUS_EYE"){
+                    // document.body.style.backgroundColor = "cyan";
+                    document.body.style.animation = "bg 0.3s linear infinite";
+                    document.getElementById("abc").innerText = "OBJECT DETECTED"
+                }
+                else if(event.data === "BATMAN"){
+                    document.body.style.backgroundColor = "yellow";
+                    document.getElementById("abc").innerText = "OBJECT DETECTED"
+                }
+                else if(event.data === "no_scanning_color_change"){
+                    document.body.style.backgroundColor = "white";
+                    document.getElementById("abc").innerText = "NO OBJECTS DETECTED"
+                }
+                else{
+                    document.body.style.animation = "none";
+                    image.src = URL.createObjectURL(event.data);
+                }
+            };
+        </script>
+    </body>
+</html>
+
